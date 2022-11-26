@@ -166,20 +166,13 @@ function appendTool(html) {
                 toolbarDiv.classList = "watching";
                 waitBrach.style.display = "none";
                 watchBrach.style.display = "inline";
-                timer = setInterval(function () {
-                    let refresh_btn = document.querySelector('[data-qa-action-id="refresh-queue"]');
-                    if (newQuestion()) {
-                        sendAlert();
-                    };
-                    refresh_btn.click();
-                }, state["watch-frequency"] * 1000);
-                return timer;
+		clickDaButton();
             });
             watching.addEventListener('click', function () {
                 toolbarDiv.classList = "waiting";
                 waitBrach.style.display = "inline";
                 watchBrach.style.display = "none";
-                clearInterval(timer);
+            //    clearInterval(timer);
             });
             volume.addEventListener('click', function (e) {
                 if (state['volume'] >= 5) {
@@ -205,6 +198,20 @@ function appendTool(html) {
         });
 };
 
+// click refresh button
+function clickDaButton() {
+	var min = 61,
+		max = 566;
+	var rand = Math.floor(Math.random() * (max - min + 1) + min);
+	console.log('Wait for ' + rand + ' seconds');
+
+        if (newQuestion()) {
+		sendAlert();
+	};
+	document.querySelector("[id^='refresh-queue']").click();
+	setTimeout(clickDaButton, rand * 1000);
+}
+ 
 // Returns TRUE if 'AVAILABLE QUESTIONS' or 'IN CLASS ACTIVITY QUESTIONS' are found in the HTML
 function newQuestion() {
     console.log('searching for new question...')
